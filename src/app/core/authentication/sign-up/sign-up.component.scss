@@ -1,0 +1,16 @@
+$signupitemwidth: 300px;
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+}
+
+mat-form-field {
+  width: $signupitemwidth;
+}
+
+button {
+  width: $signupitemwidth;
+}
