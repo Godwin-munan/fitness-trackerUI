@@ -1,0 +1,30 @@
+
+.welcome {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+/* -------------- Media query -------------- */
+
+@media only screen and (max-width: 1279px) {
+
+  .welcome {
+    flex-direction: column;
+    gap: 0
+    
+    ;
+  }
+}
+
+
+
+
+
+

@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation">
+        <!-- sidenav list -->
+        <app-sidenav-list (closeSidenav)="sidenav.close()"></app-sidenav-list>
+        <!-- sidenav list end -->
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <!-- Heading - toobar -->
+        <header>
+            <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+        </header>
+        <!-- Heading - toobar end-->
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,17 @@
+$loginitemwidth: 300px;
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+mat-form-field {
+  width: $loginitemwidth;
+}
+
+button {
+  width: $loginitemwidth;
+}

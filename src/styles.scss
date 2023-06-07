@@ -1,4 +1,93 @@
 /* You can add global styles to this file, and also import other style files */
+@mixin screenHide {
+    display: none;
+    visibility: hidden;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@mixin screenShow {
+    // display: block;
+    visibility: visible;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    appearance: none;
+    border: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+html, body {
+     height: 100%; 
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif, "Helvetica Neue"; 
+}
+
+a {
+    cursor: pointer;
+}
+
+/* -------------- Media query -------------- */
+// .s- : show
+// .h- : hide
+@media only screen and (max-width: 599px){
+
+    .s-xs {
+            @include screenShow();
+        }
+
+    .h-xs {
+        @include screenHide();
+    }
+}
+
+@media only screen and (max-width: 959px) {
+
+    .s-sm {
+        @include screenShow();
+    }
+
+    .h-sm {
+        @include screenHide();
+    }
+}
+
+@media only screen and (max-width: 1279px) {
+
+    .s-md {
+        @include screenShow();
+    }
+
+    .h-md {
+        @include screenHide();
+    }
+}
+
+@media only screen and (max-width: 1919px){
+
+    .s-lg {
+        @include screenShow();
+    }
+
+    .h-lg {
+        @include screenHide();
+    }
+}
+
+@media only screen and (max-width: 5000px){
+
+    .s-xl {
+        @include screenShow();
+    }
+
+    .h-xl {
+        @include screenHide();
+    }
+}
+

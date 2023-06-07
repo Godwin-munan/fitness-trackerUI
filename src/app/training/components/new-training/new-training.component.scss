@@ -1,0 +1,28 @@
+@mixin centerFlex(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new-training {
+  @include centerFlex();
+  padding: 30px;
+}
+
+.new-training mat-card {
+  
+  @include centerFlex();
+  flex-direction: column;
+  width: 400px;
+}
+
+
+/* -------------- Media query -------------- */
+
+@media only screen and (max-width: 599px) {
+
+  .new-training mat-card {
+    width: 100%;
+  }
+}
+

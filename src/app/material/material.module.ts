@@ -36,6 +36,7 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatTreeModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    ClipboardModule
+    ClipboardModule,
+    MatDialogModule
   ],
 })
 export class MaterialModule { }

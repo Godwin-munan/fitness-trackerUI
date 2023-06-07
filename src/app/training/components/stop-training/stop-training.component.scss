@@ -1,0 +1,16 @@
+
+@mixin centerFlex($direction-value: row, $justify-value: center, $align-value: center) {
+  display: flex;
+  flex-direction: $direction-value;
+  justify-content: $justify-value;
+  align-items: $align-value;
+}
+
+.stop-dialog {
+  @include centerFlex(column);
+  width: 300px;
+}
+
+mat-dialog-actions {
+  @include centerFlex();
+}

@@ -26,7 +26,8 @@
       "@shared/*": ["app/shared/*"],
       "@theme/*": ["app/theme/*"],
       "@testing/*": ["testing/*"],
-      "@env/*": ["environments/*"]
+      "@env/*": ["environments/*"],
+      "@current-style/*": ["app/custom/*"]
     },
   },
   "angularCompilerOptions": {

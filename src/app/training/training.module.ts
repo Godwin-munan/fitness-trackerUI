@@ -5,18 +5,21 @@ import { NewTrainingComponent } from './components/new-training/new-training.com
 import { PastTrainingComponent } from './components/past-training/past-training.component';
 import { TrainingComponent } from './components/training/training.component';
 import { SharedModule } from '@shared/shared.module';
+import { StopTrainingComponent } from './components/stop-training/stop-training.component';
 
-
-
-@NgModule({
-  declarations: [
+const COMPONENT: any[] = [
     CurrentTrainingComponent,
     NewTrainingComponent,
     PastTrainingComponent,
-    TrainingComponent
-  ],
+    TrainingComponent, 
+    StopTrainingComponent,
+]
+
+@NgModule({
+  declarations: [ ...COMPONENT, ],
   imports: [
     SharedModule,
-  ]
+  ],
+  exports: [ ...COMPONENT, ]
 })
 export class TrainingModule { }

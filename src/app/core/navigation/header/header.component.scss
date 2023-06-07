@@ -1,0 +1,38 @@
+$whity: #fff;
+$hover: lightgrey;
+
+a {
+  color: $whity;
+  transition: all ease 0.25s;
+}
+
+a:hover,
+a:active {
+  color: $hover;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.navigation-item {
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+}
+
+.menu-button {
+  display: none;
+  visibility: none;
+}
+
+
+/* -------------- Media query -------------- */
+@media only screen and (max-width: 599px) {
+
+  .menu-button {
+    display: inherit;
+    visibility: visible;
+  }
+
+}
