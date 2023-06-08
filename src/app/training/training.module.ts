@@ -6,6 +6,7 @@ import { PastTrainingComponent } from './components/past-training/past-training.
 import { TrainingComponent } from './components/training/training.component';
 import { SharedModule } from '@shared/shared.module';
 import { StopTrainingComponent } from './components/stop-training/stop-training.component';
+import { TrainingService } from './service/training.service';
 
 const COMPONENT: any[] = [
     CurrentTrainingComponent,
@@ -13,13 +14,18 @@ const COMPONENT: any[] = [
     PastTrainingComponent,
     TrainingComponent, 
     StopTrainingComponent,
-]
+];
+
+const SERVICES: any[] = [
+  TrainingService
+];
 
 @NgModule({
   declarations: [ ...COMPONENT, ],
   imports: [
     SharedModule,
   ],
+  providers: [...SERVICES],
   exports: [ ...COMPONENT, ]
 })
 export class TrainingModule { }
