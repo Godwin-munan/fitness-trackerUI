@@ -5,22 +5,22 @@
     </button>
   </div>
   <div>
-    <a [routerLink]="['']">LOGO</a>
+    <a mat-button [routerLink]="['']">LOGO</a>
   </div>
   <span class="toolbar-spacer"></span>
   <div class="h-xs">
     <ul class="navigation-item">
       <li *ngIf="!isAuth">
-        <a [routerLink]="['signup']">Signup</a>
+        <a mat-button [routerLink]="['signup']">Signup</a>
       </li>
       <li *ngIf="!isAuth">
-        <a [routerLink]="['login']">Login</a>
+        <a mat-button [routerLink]="['login']">Login</a>
       </li>
       <li *ngIf="isAuth">
-        <a [routerLink]="['training']">Training</a>
+        <a mat-button [routerLink]="['training']">Training</a>
       </li>
       <li *ngIf="isAuth">
-        <a (click)="onLogout()">Logout</a>
+        <a mat-button (click)="onLogout()">Logout</a>
       </li>
     </ul>
   </div>

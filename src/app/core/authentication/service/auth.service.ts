@@ -47,6 +47,6 @@ export class AuthService {
 
   private authSuccessfully(){
     this.authChange.next(true);
-    this._router.navigate(['/']);
+    this._router.navigate(['/training']);
   }
 }
