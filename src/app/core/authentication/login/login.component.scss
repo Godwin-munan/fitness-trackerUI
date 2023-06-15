@@ -1,4 +1,10 @@
+// @use '@angular/material' as mat;
+
 $loginitemwidth: 300px;
+
+// .dense-1 {
+//   @include mat.all-component-densities(-1);
+// }
 
 .login-container {
   display: flex;
@@ -11,6 +17,7 @@ $loginitemwidth: 300px;
 mat-form-field {
   width: $loginitemwidth;
 }
+
 
 button {
   width: $loginitemwidth;
