@@ -1,0 +1,21 @@
+@mixin centerFlex($flow: row,$justify_value: center, $align_value: center) {
+  display: flex;
+  flex-direction: $flow;
+  justify-content: $justify_value;
+  align-items: $align_value;
+}
+
+.main-body {
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-bottom: 20px;
+}
+
+.filter {
+  @include centerFlex();
+
+  mat-form-field {
+    width: 40%;
+  }
+}
+

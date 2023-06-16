@@ -13,4 +13,8 @@
 
 mat-dialog-actions {
   @include centerFlex();
+  
+  button {
+   padding: 0 3.125rem;
+  }
 }
