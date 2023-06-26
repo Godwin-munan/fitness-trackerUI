@@ -7,6 +7,10 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '@material/material.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { AuthInterceptorProvider } from './interceptor/auth-interceptor';
+import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from '@env/environment';
 
 
 const MODULES: any[] = [
@@ -17,15 +21,15 @@ const MODULES: any[] = [
   FormsModule,
   HttpClientModule,
   HammerModule,
-  BrowserModule,
-  BrowserAnimationsModule,
+
 ];
 
 const SERVICES: any[] = [
-  {provide: MAT_DATE_LOCALE, useValue: 'en-NG'}
+  AuthInterceptorProvider,
+  {provide: MAT_DATE_LOCALE, useValue: 'en-NG'},
 ];
 
-const COMPONENTS: any[] = []
+const COMPONENTS: any[] = [SnackbarComponent,]
 
 const DIRECTIVES: any[] = [];
 
@@ -34,7 +38,7 @@ const PIPES: any[] = [];
 const SCHEMAS: any[] = [ CUSTOM_ELEMENTS_SCHEMA ]
 
 @NgModule({
-  declarations: [...COMPONENTS, ...DIRECTIVES, ...PIPES, ],
+  declarations: [...COMPONENTS, ...DIRECTIVES, ...PIPES,  ],
   imports: [...MODULES],
   providers: [...SERVICES],
   exports: [...MODULES, ...COMPONENTS, ...DIRECTIVES, ...PIPES],

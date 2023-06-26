@@ -9,6 +9,22 @@
     visibility: visible;
 }
 
+//snackbar config
+.mat-mdc-snack-bar-container {
+    &.green-snackbar {
+        --mdc-snackbar-container-color: #11c95e;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    &.red-snackbar {
+        --mdc-snackbar-container-color: #c91117;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+}
+
 * {
     margin: 0;
     padding: 0;

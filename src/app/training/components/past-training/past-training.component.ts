@@ -2,8 +2,13 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { User } from '@core/authentication/model/user.model';
+import { AuthService } from '@core/authentication/service/auth.service';
+import { Store } from '@ngrx/store';
+import { selectFinishedExercises } from '@reducers/training/training.reducer';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-past-training',
@@ -15,18 +20,35 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   displayedColumns = ['date', 'name', 'duration', 'calories', 'state'];
   pageSizes = [5, 10, 25];
   totalData: number = 0;
+  user!: User;
   dataSource = new MatTableDataSource<Exercise >()
+
+  exerciseSubscription!: Subscription;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private _trainingService: TrainingService,
-  ){}
+    private _authService: AuthService,
+    private _store: Store,
+  ){
+    this.user = this._authService.getUser();
+  }
 
   ngOnInit() {
-   this.dataSource.data = this._trainingService.getCompletedOrCancelledExercises();
-   this.totalData = this.dataSource.data.length
+    this.exerciseSubscription = this._store.select(selectFinishedExercises)
+        .subscribe({
+          next: data => {
+            this.dataSource.data = data;
+          }
+    });
+    
+   let id = this.user.id as number;
+   this._trainingService.fetchCompletedOrCancelledExercises(id);
+
+
+   this.totalData = this.dataSource.data.length;
   }
 
   //this method execute after the view finish rendering
@@ -40,7 +62,7 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-   
+   this.exerciseSubscription.unsubscribe();
   }
 
 }

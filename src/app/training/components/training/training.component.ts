@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { selectActiveTraining } from '@reducers/training/training.reducer';
 import { TrainingService } from 'app/training/service/training.service';
 import { Subscription } from 'rxjs';
 
@@ -13,11 +15,12 @@ export class TrainingComponent implements OnInit, OnDestroy {
   exerciseSubscription!: Subscription;
 
   constructor(
-    private _trainingService: TrainingService
+    private _trainingService: TrainingService,
+    private _store: Store
     ){}
 
   ngOnInit(){
-    this.exerciseSubscription = this._trainingService.exerciseChanged.subscribe({
+    this.exerciseSubscription = this._store.select(selectActiveTraining).subscribe({
       next: exercise => {
         if(exercise){
            this.ongoingTraining = true;

@@ -52,9 +52,13 @@
       type="submit"  
       mat-raised-button 
       color="primary"
-      [disabled]="signupform.invalid"
+      [disabled]="signupform.invalid || (isloading$ | async)"
     >
-      Submit
+      {{ (isloading$ | async) ? '' : 'Sign up' }}
+      <mat-progress-spinner 
+        *ngIf="isloading$ | async" 
+        mode="indeterminate">
+      </mat-progress-spinner>
     </button>
   </form>
 </section>

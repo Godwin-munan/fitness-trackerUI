@@ -6,6 +6,13 @@ $loginitemwidth: 300px;
 //   @include mat.all-component-densities(-1);
 // }
 
+.progress-container {
+  margin: 0;
+  padding: 0;
+  height: .5svh;
+  background-image: linear-gradient(to right bottom, rgba(13, 66, 188, 0.8), rgba(13, 66, 188, 0.8));
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -21,4 +28,9 @@ mat-form-field {
 
 button {
   width: $loginitemwidth;
+}
+
+mat-progress-spinner {
+    max-width: 2rem;
+    max-width: 2rem;
 }

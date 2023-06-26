@@ -1,8 +1,8 @@
 export interface Exercise {
-  id: string;
+  id: number;
   name: string;
   duration: number;
-  calories: number;
+  calory: number;
   date?: Date;
-  state?: 'completed' | 'cancelled' | null;
+  state?: string;
 }

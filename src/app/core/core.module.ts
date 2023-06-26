@@ -6,6 +6,9 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AuthService } from './authentication/service/auth.service';
+import { ApiService } from './authentication/service/api/api.service';
+import { SnackbarService } from './authentication/service/snackbar/snackbar.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const COMPONENTS: any[] = [ 
     SignUpComponent,
@@ -16,7 +19,9 @@ const COMPONENTS: any[] = [
 ]
 
 const SERVICES: any[] = [ 
-  AuthService
+  AuthService,
+  ApiService,
+  SnackbarService,
 ]
 
 @NgModule({
@@ -25,6 +30,6 @@ const SERVICES: any[] = [
     SharedModule,
   ],
   providers: [ ...SERVICES, ],
-  exports: [ ...COMPONENTS, ]
+  exports: [ ...COMPONENTS,]
 })
 export class CoreModule { }

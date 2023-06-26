@@ -1,3 +1,6 @@
+<div class="progress-container">
+  <mat-progress-bar color="accent" *ngIf="isloading$ | async" mode="indeterminate"></mat-progress-bar>
+</div>
 <section class="login-form">
   <form 
     class="login-container" 
@@ -32,9 +35,13 @@
       type="submit" 
       mat-raised-button 
       color="primary" 
-      [disabled]="loginform.invalid"
+      [disabled]="loginform.invalid || (isloading$ | async)"
     >
-      Submit
+      {{ (isloading$ | async ) ? '' : 'LOGIN' }}
+      <mat-progress-spinner 
+        *ngIf="isloading$ | async " 
+        mode="indeterminate">
+      </mat-progress-spinner>
     </button>
   </form>
 </section>

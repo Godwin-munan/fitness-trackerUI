@@ -27,8 +27,10 @@
       "@theme/*": ["app/theme/*"],
       "@testing/*": ["testing/*"],
       "@env/*": ["environments/*"],
-      "@current-style/*": ["app/custom/*"]
-    },
+      "@training/*": ["app/training/*"],
+      "@current-style/*": ["app/custom/*"],
+      "@reducers/*": ["app/reducers/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

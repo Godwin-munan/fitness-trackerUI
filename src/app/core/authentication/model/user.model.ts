@@ -1,4 +1,8 @@
 export interface User {
-  email: string;
-  userId: string;
+  id?: number;
+  username?: string;
+  birthday?: Date;
+  password?: string;
+  userId?: string;
+  lastLoginDateDisplay?: string;
 }

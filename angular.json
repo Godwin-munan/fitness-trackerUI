@@ -38,6 +38,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -105,6 +111,9 @@
     }
   },
   "cli": {
-    "analytics": "f0e718c7-9ee2-4788-93c9-9c31bc4d0cee"
+    "analytics": "f0e718c7-9ee2-4788-93c9-9c31bc4d0cee",
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }
