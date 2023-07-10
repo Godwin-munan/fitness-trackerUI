@@ -11,21 +11,21 @@ export const setFinishedExercises = createAction(
     props<{ finishedExercise: Exercise[]}>()
 );
 
-// export const startExercise = createAction(
-//     "[Training] start Training",
-//     props<{ finishedExercise: Exercise[]}>()
-// );
+export const startExercise = createAction(
+    "[Training] start Training",
+    props<{exerciseId: number}>()
+);
 
-// export const stopExercise = createAction(
-//     "[Training] stop Training",
+export const stopExercise = createAction(
+    "[Training] stop Training",
     
-// );
+);
 
- export const activeExercise = createActionGroup({
-    source: "Training",
-    events: {
-      'Stop': emptyProps(),
-      'Start': props<{exerciseId: number}>(),
-    },
-});
+//  export const activeExercise = createActionGroup({
+//     source: "Training",
+//     events: {
+//       'Stop': emptyProps(),
+//       'Start': props<{exerciseId: number}>(),
+//     },
+// });
 

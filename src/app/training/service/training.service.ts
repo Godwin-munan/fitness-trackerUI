@@ -5,8 +5,8 @@ import { ApiService } from '@core/authentication/service/api/api.service';
 import { ExecutedExerciseEndPoints, ExerciseEndPoints, ExerciseState } from '@core/constant/api-constants';
 import { Store } from '@ngrx/store';
 import { startLoading, stopLoading } from '@reducers/ui/ui.actions';
-import { selectActiveTraining, selectAvailableExercises } from '@reducers/training/training.reducer';
-import { activeExercise, setAvailableExercises, setFinishedExercises } from '@reducers/training/training.actions';
+import { selectActiveTraining } from '@reducers/training/training.reducer';
+import { setAvailableExercises, setFinishedExercises, startExercise, stopExercise } from '@reducers/training/training.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class TrainingService {
 
   startExercise(selectedId: number){
 
-    this._store.dispatch(activeExercise.start({
+    this._store.dispatch(startExercise({
           exerciseId: selectedId
     }));
   }
@@ -59,6 +59,7 @@ export class TrainingService {
 
     this._store.select(selectActiveTraining).subscribe({
       next: exercise => {
+        console.log('current Training: ',exercise)
         if(exercise) this.runningExercise = exercise;
       }
     })
@@ -70,7 +71,7 @@ export class TrainingService {
     }
     this.addExecutedExercise(this.runningExercise, userId);
 
-    this._store.dispatch(activeExercise.stop());
+    this._store.dispatch(stopExercise());
   }
 
   cancelExercise(userId: number, progress: number){
@@ -91,7 +92,7 @@ export class TrainingService {
 
     this.addExecutedExercise(exercise, userId);  
 
-    this._store.dispatch(activeExercise.stop());
+    this._store.dispatch(stopExercise());
   }
 
   getRunningExercise(){

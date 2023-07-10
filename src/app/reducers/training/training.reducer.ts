@@ -1,23 +1,25 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { activeExercise, setAvailableExercises, setFinishedExercises } from "./training.actions";
+import { setAvailableExercises, setFinishedExercises, startExercise, stopExercise } from "./training.actions";
 import { Exercise } from "@training/model/exercise.model";
 import { AppState } from "@reducers/model/app-state";
 
 export interface TrainingState {
   availableExercises: Exercise[];
   finishedExercises: Exercise[];
-  activeTraining: Exercise | undefined;
+  activeTraining: Exercise | null;
 }
 
 export interface State extends AppState {
   training: TrainingState
 }
 
+
 const initialState: TrainingState = {
   availableExercises: [],
   finishedExercises: [],
-  activeTraining: undefined,
+  activeTraining: null,
 };
+
 
 export const trainingFeature = createFeature({
   name: "training",
@@ -31,17 +33,16 @@ export const trainingFeature = createFeature({
        ...state, 
        finishedExercises: action.finishedExercise  })
        ),
-    on(activeExercise.start, (state, action) => ({
+    on(startExercise, (state, action) => ({
        ...state,
       activeTraining: activeTraining(state.availableExercises, action.exerciseId) })
       ),
-    on(activeExercise.stop, (state) => ({
+    on(stopExercise, (state) => ({
        ...state, 
-       activeTraining: undefined  })
+       activeTraining: null  })
        )
   )
 });
-
 
 function activeTraining(exercises: Exercise[], exerciseId: number): Exercise {
     return Object.assign({}, exercises.find(ex => ex.id === exerciseId ));

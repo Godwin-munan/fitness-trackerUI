@@ -10,6 +10,9 @@ import {
 
 import * as fromUi from './ui/ui.reducer';
 import * as fromAuth from './auth/auth.reducer';
+import * as fromFinishedTraining from './finishedTraining.reducer'
+import * as fromAvailableTraining from './training/training.reducer'
+
 
 // export interface AppState {
 //   ui: fromUi.AppState;
@@ -23,3 +26,23 @@ import * as fromAuth from './auth/auth.reducer';
 
 
 // export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];
+
+// export interface State {
+//   availableExercise: fromAvailableTraining.AvailableTrainingState,
+//   finishedExercise: fromFinishedTraining.FinishedTrainingState,
+// }
+
+// export const reducers: ActionReducerMap<State> = {
+//   'availableExercise': fromAvailableTraining.availableReducer,
+//   'finishedExercise': fromFinishedTraining.finishedReducer,
+
+// };
+
+
+
+
+
+
+
+
+

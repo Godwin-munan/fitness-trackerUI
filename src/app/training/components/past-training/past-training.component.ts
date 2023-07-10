@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectFinishedExercises } from '@reducers/training/training.reducer';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-past-training',
