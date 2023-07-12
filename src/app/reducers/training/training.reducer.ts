@@ -50,6 +50,6 @@ function activeTraining(exercises: Exercise[], exerciseId: number): Exercise {
 
 trainingFeature.selectTrainingState;
 
-export const selectAvailableExercises = trainingFeature.selectAvailableExercises;
-export const selectFinishedExercises = trainingFeature.selectFinishedExercises;
-export const selectActiveTraining = trainingFeature.selectActiveTraining;
+// export const selectAvailableExercises = trainingFeature.selectAvailableExercises;
+// export const selectFinishedExercises = trainingFeature.selectFinishedExercises;
+// export const selectActiveTraining = trainingFeature.selectActiveTraining;

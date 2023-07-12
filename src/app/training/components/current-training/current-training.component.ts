@@ -6,7 +6,8 @@ import { TrainingService } from 'app/training/service/training.service';
 import { Exercise } from 'app/training/model/exercise.model';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { selectActiveTraining } from '@reducers/training/training.reducer';
+import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
+// import { selectActiveTraining } from '@reducers/training/training.reducer';
 
 @Component({
   selector: 'app-current-training',
@@ -42,7 +43,7 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
 
   startOrResumeTimer(){
 
-    this._store.select(selectActiveTraining).pipe(
+    this._store.select(trainingSelectors.selectActiveTraining).pipe(
       takeUntil(this.destroySubject$)
     ).subscribe({
       next: exercise => {

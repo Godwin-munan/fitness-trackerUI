@@ -9,6 +9,8 @@ import { TrainingService } from './service/training.service';
 import { TrainingRoutingModule } from './training-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { trainingFeature } from '@reducers/training/training.reducer';
+import { trainingReducer } from '@reducers/sketch/finishedTraining.reducer';
+// import { trainingFeature1 } from '@reducers/sketch/finishedTraining.reducer';
 
 const COMPONENT: any[] = [
     CurrentTrainingComponent,
@@ -27,7 +29,7 @@ const SERVICES: any[] = [
   imports: [
     SharedModule,
     TrainingRoutingModule,
-    StoreModule.forFeature(trainingFeature),
+    StoreModule.forFeature('training', trainingReducer),
   ],
   providers: [...SERVICES],
   exports: [ ...COMPONENT, ]

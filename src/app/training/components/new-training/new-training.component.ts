@@ -2,7 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { selectAvailableExercises } from '@reducers/training/training.reducer';
+import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
+// import { selectAvailableExercises } from '@reducers/training/training.reducer';
 import { selectIsLoading } from '@reducers/ui/ui.reducer';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
@@ -37,7 +38,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   ngOnInit(){
     this.isloading$ =  this._store.select(selectIsLoading);
     
-    this.exercises$ = this._store.select(selectAvailableExercises);
+    this.exercises$ = this._store.select(trainingSelectors.selectAllAvailableExercises);
 
     this.fetchExercise();
   }

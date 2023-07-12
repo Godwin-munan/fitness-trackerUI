@@ -10,7 +10,7 @@ import {
 
 import * as fromUi from './ui/ui.reducer';
 import * as fromAuth from './auth/auth.reducer';
-import * as fromFinishedTraining from './finishedTraining.reducer'
+import * as fromFinishedTraining from './sketch/finishedTraining.reducer'
 import * as fromAvailableTraining from './training/training.reducer'
 
 

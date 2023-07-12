@@ -5,7 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { User } from '@core/authentication/model/user.model';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { selectFinishedExercises } from '@reducers/training/training.reducer';
+import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
+// import { selectFinishedExercises } from '@reducers/training/training.reducer';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
 import { Subscription } from 'rxjs';
@@ -37,7 +38,7 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.exerciseSubscription = this._store.select(selectFinishedExercises)
+    this.exerciseSubscription = this._store.select(trainingSelectors.selectAllFinishedExercises)
         .subscribe({
           next: data => {
             this.dataSource.data = data;
