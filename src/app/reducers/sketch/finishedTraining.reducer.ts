@@ -4,25 +4,28 @@ import { Exercise } from "@training/model/exercise.model";
 import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
 
 
-const availableExercisesAdapter = createEntityAdapter<Exercise>();
-const finishedExercisesAdapter = createEntityAdapter<Exercise>();
-
 interface TrainingState {
   availableExercises: EntityState<Exercise>;
   finishedExercises: EntityState<Exercise>;
   activeTraining: Exercise | null;
 }
 
+//creating ngrx entity adapters
+const availableExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Exercise>();
+const finishedExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Exercise>();
+
+
 const initialAvailableExercisesState = availableExercisesAdapter.getInitialState();
 const initialFinishedExercisesState = finishedExercisesAdapter.getInitialState();
 
+//Initiating state
 const initialState: TrainingState = {
   availableExercises: initialAvailableExercisesState,
   finishedExercises: initialFinishedExercisesState,
   activeTraining: null,
 }
 
-
+//creating training reducer
 const _trainingReducer = createReducer(
   initialState,
 
@@ -45,12 +48,7 @@ const _trainingReducer = createReducer(
   on(stopExercise, (state) => Object.assign({}, {...state, activeTraining: null }))
 );
 
-
-// export const trainingFeature = createFeature({
-//   name: 'training',
-//   reducer: _trainingReducer
-// })
-
+//creating selectors
 const selectTrainingState = createFeatureSelector<TrainingState>('training');
 
 const selectAvailableExercisesState = createSelector(
@@ -69,15 +67,11 @@ const selectActiveTraining = createSelector(
 
 const {
   selectAll: selectAllAvailableExercises,
-  selectEntities: selectAvailableExercisesEntities,
-  selectIds: selectAvailableExercisesIds,
   selectTotal: selectAvailableExercisesTotal,
 } = availableExercisesAdapter.getSelectors(selectAvailableExercisesState);
 
 const {
   selectAll: selectAllFinishedExercises,
-  selectEntities: selectFinishedExercisesEntities,
-  selectIds: selectFinishedExercisesIds,
   selectTotal: selectFinishedExercisesTotal,
 } = finishedExercisesAdapter.getSelectors(selectFinishedExercisesState);
 
@@ -86,8 +80,6 @@ export const trainingSelectors = {
   selectAllAvailableExercises,
   selectAvailableExercisesTotal,
   selectAllFinishedExercises,
-  selectFinishedExercisesEntities,
-  selectFinishedExercisesIds,
   selectFinishedExercisesTotal,
   selectActiveTraining,
 };
