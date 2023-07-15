@@ -8,9 +8,7 @@ import { StopTrainingComponent } from './components/stop-training/stop-training.
 import { TrainingService } from './service/training.service';
 import { TrainingRoutingModule } from './training-routing.module';
 import { StoreModule } from '@ngrx/store';
-import { trainingFeature } from '@reducers/training/training.reducer';
-import { trainingReducer } from '@reducers/sketch/finishedTraining.reducer';
-// import { trainingFeature1 } from '@reducers/sketch/finishedTraining.reducer';
+import { trainingReducer } from '@fitness/store/index';
 
 const COMPONENT: any[] = [
     CurrentTrainingComponent,

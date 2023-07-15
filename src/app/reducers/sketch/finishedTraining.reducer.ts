@@ -1,92 +1,59 @@
-import { Action, ActionReducerMap, createFeature, createFeatureSelector, createReducer, createSelector, on } from "@ngrx/store";
+import { createFeature, createReducer, on } from "@ngrx/store";
 import { setAvailableExercises, setFinishedExercises, startExercise, stopExercise } from "../training/training.actions";
 import { Exercise } from "@training/model/exercise.model";
-import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
+import { AppState } from "@reducers/model/app-state";
 
 
-interface TrainingState {
-  availableExercises: EntityState<Exercise>;
-  finishedExercises: EntityState<Exercise>;
+export interface TrainingState {
+  availableExercises: Exercise[];
+  finishedExercises: Exercise[];
   activeTraining: Exercise | null;
 }
 
-//creating ngrx entity adapters
-const availableExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Exercise>();
-const finishedExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Exercise>();
-
-
-const initialAvailableExercisesState = availableExercisesAdapter.getInitialState();
-const initialFinishedExercisesState = finishedExercisesAdapter.getInitialState();
-
-//Initiating state
-const initialState: TrainingState = {
-  availableExercises: initialAvailableExercisesState,
-  finishedExercises: initialFinishedExercisesState,
-  activeTraining: null,
+export interface State extends AppState {
+  training: TrainingState
 }
 
-//creating training reducer
-const _trainingReducer = createReducer(
-  initialState,
 
-  on(setAvailableExercises, (state, action) => {
-    return {
-      ...state,
-      availableExercises: availableExercisesAdapter.addMany(action.availableExercise, state.availableExercises),
-    };
-  }),
-  on(setFinishedExercises, (state, action) => {
-    return {
-      ...state,
-      finishedExercises: finishedExercisesAdapter.addMany(action.finishedExercise, state.finishedExercises),
-    };
-  }),
-  on(startExercise, (state, action) => {
-    const activeTraining = state.availableExercises.entities[action.exerciseId] as Exercise;
-    return Object.assign({}, { ...state, activeTraining: activeTraining} )
-  }),
-  on(stopExercise, (state) => Object.assign({}, {...state, activeTraining: null }))
-);
-
-//creating selectors
-const selectTrainingState = createFeatureSelector<TrainingState>('training');
-
-const selectAvailableExercisesState = createSelector(
-  selectTrainingState,
-  (state) => state.availableExercises
-);
-const selectFinishedExercisesState = createSelector(
-  selectTrainingState,
-  (state) => state.finishedExercises
-);
-
-const selectActiveTraining = createSelector(
-  selectTrainingState,
-  (state) => state.activeTraining
-);
-
-const {
-  selectAll: selectAllAvailableExercises,
-  selectTotal: selectAvailableExercisesTotal,
-} = availableExercisesAdapter.getSelectors(selectAvailableExercisesState);
-
-const {
-  selectAll: selectAllFinishedExercises,
-  selectTotal: selectFinishedExercisesTotal,
-} = finishedExercisesAdapter.getSelectors(selectFinishedExercisesState);
-
-
-export const trainingSelectors = {
-  selectAllAvailableExercises,
-  selectAvailableExercisesTotal,
-  selectAllFinishedExercises,
-  selectFinishedExercisesTotal,
-  selectActiveTraining,
+const initialState: TrainingState = {
+  availableExercises: [],
+  finishedExercises: [],
+  activeTraining: null,
 };
 
-export function trainingReducer(state: TrainingState, action: Action) {
-  return _trainingReducer(state, action);
-}
+
+export const trainingFeature = createFeature({
+  name: "training",
+  reducer: createReducer(
+    initialState,
+    on(setAvailableExercises, (state, action) => ({
+       ...state, 
+       availableExercises: action.availableExercise })
+       ),
+    on(setFinishedExercises, (state, action) => ({
+       ...state, 
+       finishedExercises: action.finishedExercise  })
+       ),
+    on(startExercise, (state, action) => ({
+       ...state,
+      activeTraining: activeTraining(state.availableExercises, action.exerciseId) })
+      ),
+    on(stopExercise, (state) => ({
+       ...state, 
+       activeTraining: null  })
+       )
+  )
+});
+
+function activeTraining(exercises: Exercise[], exerciseId: number): Exercise {
+    return Object.assign({}, exercises.find(ex => ex.id === exerciseId ));
+  }
+
+trainingFeature.selectTrainingState;
+
+// export const selectAvailableExercises = trainingFeature.selectAvailableExercises;
+// export const selectFinishedExercises = trainingFeature.selectFinishedExercises;
+// export const selectActiveTraining = trainingFeature.selectActiveTraining;
 
 
 

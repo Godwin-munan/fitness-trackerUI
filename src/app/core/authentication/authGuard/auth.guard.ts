@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Router,} from '@angular/router';
 import { tap } from 'rxjs';
-import { AuthService } from '../service/auth.service';
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated } from '@reducers/auth/auth.reducer';
+import { selectIsAuthenticated } from '@fitness/store/index';
 
 @Injectable({
   providedIn: 'root'

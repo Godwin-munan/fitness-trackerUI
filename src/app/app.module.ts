@@ -12,8 +12,7 @@ import { environment } from '@env/environment';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { uiFeature } from '@reducers/ui/ui.reducer';
-import { authFeature } from '@reducers/auth/auth.reducer';
+import { authFeature, uiFeature } from '@fitness/store/index';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");

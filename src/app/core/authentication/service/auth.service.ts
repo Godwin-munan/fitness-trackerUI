@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.model';
 import { AuthData } from '../model/auth-data.model';
-import { BehaviorSubject, Subject } from 'rxjs';
+
 import { Router } from '@angular/router';
 import { ApiService } from './api/api.service';
 import { AuthEndPoints, Constants } from '@core/constant/api-constants';
@@ -9,8 +9,13 @@ import { SignUpData } from '../model/signup.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SnackbarService } from './snackbar/snackbar.service';
 import { Store } from '@ngrx/store';
-import { startLoading, stopLoading } from '@reducers/ui/ui.actions';
-import { setAuthenticated, setUnauthenticed } from '@reducers/auth/auth.actions';
+import { 
+  setAuthenticated, 
+  setUnauthenticed,
+  startLoading,
+  stopLoading 
+} from '@fitness/store/index';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +23,7 @@ import { setAuthenticated, setUnauthenticed } from '@reducers/auth/auth.actions'
 export class AuthService {
   private readonly ACCESS_TOKEN = 'access_token';
 
-  private _isLogin$ =  new BehaviorSubject<boolean>(false);
-  private _isLoading$ = new BehaviorSubject<boolean>(false);
-
-  authChange = new Subject<boolean>();
   private user!: User | null;
-
-  isLogin$ = this._isLogin$.asObservable();
-  isLoading$ = this._isLoading$.asObservable();
 
   constructor(
     private _apiService: ApiService,
@@ -38,12 +36,11 @@ export class AuthService {
   }
 
   registerUser(signUpData: SignUpData){
-    // this._isLoading$.next(true);
     this._store.dispatch(startLoading());
 
     this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData).subscribe({
       next: response => {
-        // this._isLoading$.next(false);
+
         this._store.dispatch(stopLoading());
 
         this.user = response.data as User;
@@ -51,7 +48,7 @@ export class AuthService {
         this.authSuccessfully(token, this.user);
       },
       error: error => {
-        // this._isLoading$.next(false);
+
         this._store.dispatch(stopLoading());
 
         this._snackbar
@@ -64,12 +61,12 @@ export class AuthService {
   }
 
   login(authData: AuthData){
-    // this._isLoading$.next(true);
+
     this._store.dispatch(startLoading());
     
     this._apiService.add<User>(AuthEndPoints.LOGIN, authData).subscribe({
       next: response => {
-        // this._isLoading$.next(false);
+
         this._store.dispatch(stopLoading());
 
         this.user = response.data as User;
@@ -77,7 +74,7 @@ export class AuthService {
         this.authSuccessfully(token, this.user);
       },
       error: error => {
-        // this._isLoading$.next(false);
+
         this._store.dispatch(stopLoading());
         
         this._snackbar
@@ -104,7 +101,7 @@ export class AuthService {
   }
 
   private authSuccessfully(token: string, user: User){
-    // this._isLogin$.next(true);
+
     this._store.dispatch(setAuthenticated());
 
     localStorage.setItem(this.ACCESS_TOKEN, token);
@@ -114,7 +111,7 @@ export class AuthService {
   }
 
   private logoutSuccessfully(){
-    // this._isLogin$.next(false);
+
     this._store.dispatch(setUnauthenticed());
 
     localStorage.removeItem(this.ACCESS_TOKEN);

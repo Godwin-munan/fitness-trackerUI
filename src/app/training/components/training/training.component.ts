@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
-import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
-// import { selectActiveTraining } from '@reducers/training/training.reducer';
 import { TrainingService } from 'app/training/service/training.service';
 import { Subscription } from 'rxjs';
 

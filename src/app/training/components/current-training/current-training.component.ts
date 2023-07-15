@@ -6,8 +6,7 @@ import { TrainingService } from 'app/training/service/training.service';
 import { Exercise } from 'app/training/model/exercise.model';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
-// import { selectActiveTraining } from '@reducers/training/training.reducer';
+import { trainingSelectors } from '@fitness/store/index';
 
 @Component({
   selector: 'app-current-training',

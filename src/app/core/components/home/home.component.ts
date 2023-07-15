@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
-import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
 import { Observable } from 'rxjs';
 
 @Component({

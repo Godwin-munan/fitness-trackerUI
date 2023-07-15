@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectIsLoading } from '@reducers/ui/ui.reducer';
+import { selectIsLoading } from '@fitness/store/index';
 
 @Component({
   selector: 'app-sign-up',

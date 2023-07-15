@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AuthService } from '@core/authentication/service/auth.service';
+import { selectIsAuthenticated } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated } from '@reducers/auth/auth.reducer';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

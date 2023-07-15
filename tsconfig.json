@@ -29,7 +29,8 @@
       "@env/*": ["environments/*"],
       "@training/*": ["app/training/*"],
       "@current-style/*": ["app/custom/*"],
-      "@reducers/*": ["app/reducers/*"]
+      "@reducers/*": ["app/reducers/*"],
+      "@fitness/store/*": ["app/store/*"]
     }
   },
   "angularCompilerOptions": {

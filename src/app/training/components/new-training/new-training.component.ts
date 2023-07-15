@@ -1,10 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '@core/authentication/service/auth.service';
+import { selectIsLoading, trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
-import { trainingSelectors } from '@reducers/sketch/finishedTraining.reducer';
-// import { selectAvailableExercises } from '@reducers/training/training.reducer';
-import { selectIsLoading } from '@reducers/ui/ui.reducer';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -47,16 +44,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.destroySubject$.next();
     this.destroySubject$.complete();
   }
-
-  // isLoading(){
-  //   this._trainingService.isLoading$.pipe(
-  //     takeUntil(this.destroySubject$)
-  //   ).subscribe({
-  //     next: isloading => {
-  //       this.isloading = isloading;
-  //     }
-  //   });
-  // }
 
   fetchExercise(){
     this._trainingService.fetchAvailableExercises();
