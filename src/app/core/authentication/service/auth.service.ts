@@ -38,53 +38,62 @@ export class AuthService {
   registerUser(signUpData: SignUpData){
     this._store.dispatch(startLoading());
 
-    this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData).subscribe({
-      next: response => {
+    return this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData)
+    // .subscribe({
+    //   next: response => {
 
-        this._store.dispatch(stopLoading());
+    //     this._store.dispatch(stopLoading());
 
-        this.user = response.data as User;
-        let token = response.response as string;
-        this.authSuccessfully(token, this.user);
-      },
-      error: error => {
+    //     this.user = response.data as User;
+    //     let token = response.response as string;
+    //     this.authSuccessfully(token, this.user);
+    //   },
+    //   error: error => {
 
-        this._store.dispatch(stopLoading());
+    //     this._store.dispatch(stopLoading());
 
-        this._snackbar
-          .openSnackBar(
-            error?.originalError.error.message,
-             Constants.ERROR
-          );
-      }
-    })
+    //     this._snackbar
+    //       .openSnackBar(
+    //         error?.originalError.error.message,
+    //          Constants.ERROR
+    //       );
+    //   }
+    // })
   }
 
   login(authData: AuthData){
 
     this._store.dispatch(startLoading());
     
-    this._apiService.add<User>(AuthEndPoints.LOGIN, authData).subscribe({
-      next: response => {
+    return this._apiService.add<User>(AuthEndPoints.LOGIN, authData)
+    // .subscribe({
+    //   next: response => {
 
-        this._store.dispatch(stopLoading());
+    //     this._store.dispatch(stopLoading());
 
-        this.user = response.data as User;
-        let token = response.response as string;
-        this.authSuccessfully(token, this.user);
-      },
-      error: error => {
+    //     this.user = response.data as User;
+    //     let token = response.response as string;
+    //     this.authSuccessfully(token, this.user);
+    //   },
+    //   error: error => {
 
-        this._store.dispatch(stopLoading());
+    //     this._store.dispatch(stopLoading());
         
-        this._snackbar
-          .openSnackBar(
-            error?.originalError.error.message,
-             Constants.ERROR
-          );
-      }
-    })
+    //     this._snackbar
+    //       .openSnackBar(
+    //         error?.originalError.error.message,
+    //          Constants.ERROR
+    //       );
+    //   }
+    // })
     
+  }
+
+  public stopError(errorMsg: string){
+    this._store.dispatch(stopLoading());
+
+    this._snackbar
+      .openSnackBar(errorMsg,Constants.ERROR);
   }
 
   logout(){
@@ -100,8 +109,9 @@ export class AuthService {
     return { ...user };
   }
 
-  private authSuccessfully(token: string, user: User){
+  public authSuccessfully(token: string, user: User){
 
+    this._store.dispatch(stopLoading());
     this._store.dispatch(setAuthenticated());
 
     localStorage.setItem(this.ACCESS_TOKEN, token);

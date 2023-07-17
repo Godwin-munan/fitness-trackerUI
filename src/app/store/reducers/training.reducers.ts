@@ -3,6 +3,7 @@ import { Action, createFeatureSelector, createReducer, createSelector, on } from
 import { Exercise } from "@training/model/exercise.model";
 import { setAvailableExercises, setFinishedExercises, startExercise, stopExercise } from "../actions/training.actions";
 
+//Training State
 interface TrainingState {
   availableExercises: EntityState<Exercise>;
   finishedExercises: EntityState<Exercise>;
@@ -17,7 +18,7 @@ const finishedExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Ex
 const initialAvailableExercisesState = availableExercisesAdapter.getInitialState();
 const initialFinishedExercisesState = finishedExercisesAdapter.getInitialState();
 
-//Initiating state
+//Initial Training state
 const initialState: TrainingState = {
   availableExercises: initialAvailableExercisesState,
   finishedExercises: initialFinishedExercisesState,

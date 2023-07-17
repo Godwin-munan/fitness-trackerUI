@@ -3,7 +3,11 @@ import { RouterModule, Routes } from "@angular/router";
 import { TrainingComponent } from "./components/training/training.component";
 
 const routes: Routes = [
-  {path: '', component: TrainingComponent,  },
+  {
+    path: '', 
+    component: TrainingComponent,
+    title: 'Fitness - Training' 
+  },
 ]
 
 

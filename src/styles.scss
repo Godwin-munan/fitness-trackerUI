@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+// #F79802
 @mixin screenHide {
     display: none;
     visibility: hidden;
@@ -12,13 +13,14 @@
 //snackbar config
 .mat-mdc-snack-bar-container {
     &.green-snackbar {
-        --mdc-snackbar-container-color: #11c95e;
+        --mdc-snackbar-container-color: #38B261;
         --mat-mdc-snack-bar-button-color: #fff;
         --mdc-snackbar-supporting-text-color: #fff;
     }
 
     &.red-snackbar {
-        --mdc-snackbar-container-color: #c91117;
+        // --mdc-snackbar-container-color: #ED4337;
+        --mdc-snackbar-container-color: #ff0033;
         --mat-mdc-snack-bar-button-color: #fff;
         --mdc-snackbar-supporting-text-color: #fff;
     }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, inject } from '@angular/core';
 import { AppError } from '@core/error/app-error';
 import { BadRequestError } from '@core/error/bad-request-error';
@@ -76,18 +76,14 @@ export class ApiService {
     )
   }
 
-  private handleError(error: Response){
-    if(error.status === 404)
+  private handleError(error: HttpErrorResponse){
 
-      return throwError(() => new NotFoundError(error))
-  
-    if(error.status === 400){
-
-      return throwError(() => new BadRequestError(error));
+    switch(error.status){
+      case 404: return throwError(() => new NotFoundError(error.error?.message))
+      case 400: return throwError(() => new BadRequestError(error.error?.message));
+      case 0: return throwError(() => new AppError('Connection Error! try again'));
+      default: return throwError(() => new AppError(error.message)); 
     }
-      
-      
-    return throwError(() => new AppError(error));
-    }
+  }
 }
 

@@ -19,9 +19,8 @@
           type="submit" 
           mat-button 
           *ngIf="exercises$ | async"
-          [disabled]="exerciseForm.invalid"
-        >
-          Start
+          [disabled]="exerciseForm.invalid">
+            Start
         </button>
         <button 
           type="button"

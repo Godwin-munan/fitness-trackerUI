@@ -9,16 +9,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  totalAvlExercise$!: Observable<number>
-  totalfinishedExercise$!: Observable<number>
+
 
   constructor(
     private _store: Store
   ){}
 
-  ngOnInit(){
-    this.totalAvlExercise$ = this._store.select(trainingSelectors.selectAvailableExercisesTotal);
-    this.totalfinishedExercise$ = this._store.select(trainingSelectors.selectFinishedExercisesTotal);
-  }
+  ngOnInit(){}
 
 }

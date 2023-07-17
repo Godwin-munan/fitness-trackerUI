@@ -1,32 +1,38 @@
 // @use '@angular/material' as mat;
 
-$loginitemwidth: 300px;
+$loginitemwidth: 23.125rem;
 
-// .dense-1 {
-//   @include mat.all-component-densities(-1);
-// }
-
-.progress-container {
-  margin: 0;
-  padding: 0;
-  height: .5svh;
-  background-image: linear-gradient(to right bottom, rgba(13, 66, 188, 0.8), rgba(13, 66, 188, 0.8));
-}
-
-.login-container {
+@mixin centerFlex() {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+
+.login-container {
+  @include centerFlex();
+  padding: 30px;
+}
+
+.login-container mat-card {
+  @include centerFlex();
+  flex-direction: column;
+  width: 25rem;
+}
+
+.login-form {
+  @include centerFlex();
+  flex-direction: column;
   gap: 7px;
 }
 
 mat-form-field {
-  width: $loginitemwidth;
+  width: 100%;
 }
 
 
 button {
+  padding: 1.5rem 0;
   width: $loginitemwidth;
 }
 
@@ -34,3 +40,17 @@ mat-progress-spinner {
     max-width: 2rem;
     max-width: 2rem;
 }
+
+/* -------------- Media query -------------- */
+
+@media only screen and (max-width: 599px) {
+
+  .login-container mat-card {
+    width: 100%;
+  }
+
+  button {
+    width: 17.7rem;
+  }
+}
+

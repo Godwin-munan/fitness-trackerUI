@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectIsLoading } from '@fitness/store/index';
+import { selectIsLoading, startRegistration } from '@fitness/store/index';
+import { SignUpData } from '../model/signup.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,6 +18,7 @@ export class SignUpComponent implements OnInit{
   hintStart: any = 'start';
   hintEnd: any = 'end'; 
   isloading$!: Observable<boolean>;
+  showPassword: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -41,11 +43,19 @@ export class SignUpComponent implements OnInit{
 
 
   onSignup(){
-    this._authService.registerUser({
+
+    const signUpData = {
       username: this.emailControl.value,
       password: this.passwordControl.value,
       birthday: this.birthdayControl.value
-    });
+    } as SignUpData;
+
+    this._store.dispatch(startRegistration({signUp: signUpData}));
+
+  }
+
+  togglePasswordVisibility(){
+    this.showPassword = !this.showPassword;
   }
 
   get emailControl(){

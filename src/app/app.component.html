@@ -10,7 +10,11 @@
             <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
         </header>
         <!-- Heading - toobar end-->
-        <main>
+        <div class="progress-container">
+            <mat-progress-bar color="primary" *ngIf="isloading$ | async" mode="indeterminate">
+            </mat-progress-bar>
+        </div>
+        <main class="main-body">
             <router-outlet></router-outlet>
         </main>
     </mat-sidenav-content>

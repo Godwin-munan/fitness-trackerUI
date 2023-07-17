@@ -8,23 +8,27 @@ import {  inject } from '@angular/core';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent,  },
+  { path: 'home', component: HomeComponent, title: 'Fitness - Home' },
   { 
     path: 'signup', 
     component: SignUpComponent, 
-    // canDeactivate: [() => inject(AuthGuard).canDeactivate()]
+    title: 'Fitness - Sign Up'
   },
   { 
     path: 'login', 
     component: LoginComponent, 
-    // canDeactivate: [() => inject(AuthGuard).canDeactivate()] 
+    title: 'Fitness - Sign In'
   },
   {
     path: 'training', 
     loadChildren: () => import('@training/training.module').then(m => m.TrainingModule), 
-    canMatch: [() => inject(AuthGuard).canMatch()]
+    canLoad: [() => inject(AuthGuard).canMatch()]
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { 
+    path: '**', 
+    redirectTo: 'home', 
+    pathMatch: 'full' 
+  },
 ];
 
 @NgModule({

@@ -11,6 +11,17 @@ a:active {
   color: $hover;
 }
 
+mat-toolbar {
+  // background: #ff8b28;
+  // background: #d56f00;
+  // background: #b7410e;
+  background: #f59929;
+  // background: #fbbf7f;
+  // background: #d86e39;
+  // background: #0b022e;
+  color: #fff;
+}
+
 .toolbar-spacer {
   flex: 1 1 auto;
 }

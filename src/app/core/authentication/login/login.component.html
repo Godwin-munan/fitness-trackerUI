@@ -1,48 +1,42 @@
-<div class="progress-container">
-  <mat-progress-bar color="accent" *ngIf="isloading$ | async" mode="indeterminate"></mat-progress-bar>
-</div>
-<section class="login-form">
+
+<section class="login-container">
   <form 
-    class="login-container" 
+    class="login-form" 
     [formGroup]="loginform" 
-    (ngSubmit)="onLogin()"
-  >
-    <mat-form-field appearance="outline">
-      <input 
-        type="email" 
-        matInput 
-        placeholder="Your email" 
-        formControlName="email"
-      >
-      <mat-error *ngIf="emailControl.errors?.['required']">
-        Email field must not be empty
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field 
-      hintLabel="Should be at least 8 characters long." 
-      appearance="outline"
-    >
-      <input 
-        type="password" 
-        matInput placeholder="Your password" 
-        formControlName="password" 
-      >
-      <mat-error *ngIf="passwordControl.errors?.['required']">
-        Password is required
-      </mat-error>
-    </mat-form-field>
-    <button 
-      type="submit" 
-      mat-raised-button 
-      color="primary" 
-      [disabled]="loginform.invalid || (isloading$ | async)"
-    >
-      {{ (isloading$ | async ) ? '' : 'LOGIN' }}
-      <mat-progress-spinner 
-        *ngIf="isloading$ | async " 
-        mode="indeterminate">
-      </mat-progress-spinner>
-    </button>
+    (ngSubmit)="onLogin()">
+    <mat-card>
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <input type="email" matInput placeholder="Your email" formControlName="email">
+          <mat-error *ngIf="emailControl.errors?.['required']">
+            Email field must not be empty
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field hintLabel="Should be at least 8 characters long." appearance="outline">
+          <input [type]="showPassword ? 'text' : 'password'" matInput placeholder="Your password"
+            formControlName="password">
+          <mat-icon matSuffix (click)="togglePasswordVisibility()">
+            {{ showPassword? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+          <mat-error *ngIf="passwordControl.errors?.['required']">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button 
+          type="submit" 
+          mat-raised-button  
+          color="primary" 
+          [disabled]="loginform.invalid || (isloading$ | async)">
+            {{ (isloading$ | async ) ? '' : 'LOGIN' }}
+          <mat-progress-spinner 
+            *ngIf="isloading$ | async "   
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </form>
 </section>
 

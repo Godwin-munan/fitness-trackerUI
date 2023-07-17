@@ -7,5 +7,19 @@ mat-sidenav {
   width: 250px;
 }
 
+.progress-container {
+  margin: 0;
+  padding: 0;
+  height: .5svh;
+  background-image: linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+}
+
+.main-body{
+  display: flex;
+  height: 28.125rem;
+  justify-content: center;
+  align-items: center;
+}
+
 
 

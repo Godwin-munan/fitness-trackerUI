@@ -1,18 +1,36 @@
-$signupitemwidth: 300px;
+$signupitemwidth: 23.125rem;
 
-.signup-container {
+@mixin centerFlex() {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.signup-container {
+  @include centerFlex();
+  padding: 30px
+  // flex-direction: column;
+  // gap: 7px;
+}
+
+.signup-container mat-card {
+  @include centerFlex();
+  flex-direction: column;
+  width: 25rem;
+}
+
+.signup-form {
+  @include centerFlex();
+  flex-direction: column;
   gap: 7px;
 }
 
 mat-form-field {
-  width: $signupitemwidth;
+  width: 100%;
 }
 
 button {
+  padding: 1.5rem 0;
   width: $signupitemwidth;
 }
 
@@ -20,3 +38,18 @@ mat-progress-spinner {
   max-width: 2rem;
   max-width: 2rem;
 }
+
+/* -------------- Media query -------------- */
+
+@media only screen and (max-width: 599px) {
+
+  .signup-container mat-card {
+    width: 100%;
+  }
+
+  button {
+    width: 17.7rem;
+  }
+}
+
+

@@ -7,9 +7,7 @@ import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar'
   styleUrls: ['./snackbar.component.scss']
 })
 export class SnackbarComponent {
-  openSnackBar(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
+  openSnackBar(arg0: string) {}
   
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
