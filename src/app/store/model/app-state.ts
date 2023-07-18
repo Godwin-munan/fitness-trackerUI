@@ -1,4 +1,7 @@
+import { AuthState } from "../reducers/auth.reducers";
+import { UiState } from "../reducers/ui.reducers";
+
 export interface AppState {
-//   ui: fromUi.UiState;
-//   auth: fromAuth.AuthState;
+  ui: UiState;
+  auth: AuthState;
 }

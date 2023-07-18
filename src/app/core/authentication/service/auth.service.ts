@@ -38,54 +38,14 @@ export class AuthService {
   registerUser(signUpData: SignUpData){
     this._store.dispatch(startLoading());
 
-    return this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData)
-    // .subscribe({
-    //   next: response => {
-
-    //     this._store.dispatch(stopLoading());
-
-    //     this.user = response.data as User;
-    //     let token = response.response as string;
-    //     this.authSuccessfully(token, this.user);
-    //   },
-    //   error: error => {
-
-    //     this._store.dispatch(stopLoading());
-
-    //     this._snackbar
-    //       .openSnackBar(
-    //         error?.originalError.error.message,
-    //          Constants.ERROR
-    //       );
-    //   }
-    // })
+    return this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData);
   }
 
   login(authData: AuthData){
 
     this._store.dispatch(startLoading());
     
-    return this._apiService.add<User>(AuthEndPoints.LOGIN, authData)
-    // .subscribe({
-    //   next: response => {
-
-    //     this._store.dispatch(stopLoading());
-
-    //     this.user = response.data as User;
-    //     let token = response.response as string;
-    //     this.authSuccessfully(token, this.user);
-    //   },
-    //   error: error => {
-
-    //     this._store.dispatch(stopLoading());
-        
-    //     this._snackbar
-    //       .openSnackBar(
-    //         error?.originalError.error.message,
-    //          Constants.ERROR
-    //       );
-    //   }
-    // })
+    return this._apiService.add<User>(AuthEndPoints.LOGIN, authData);
     
   }
 
@@ -102,6 +62,7 @@ export class AuthService {
   }
 
   getUser() : User {
+
     let raw = localStorage.getItem(Constants.PRINCIPAL) as string;
     let user;
     if(raw) 
@@ -111,14 +72,12 @@ export class AuthService {
 
   public authSuccessfully(token: string, user: User){
 
-    this._store.dispatch(stopLoading());
-    this._store.dispatch(setAuthenticated());
-
     localStorage.setItem(this.ACCESS_TOKEN, token);
     localStorage.setItem(Constants.PRINCIPAL, JSON.stringify(user));
     this._router.navigate(['/training']);
     this._snackbar.openSnackBar('Login successfully')
   }
+
 
   private logoutSuccessfully(){
 
@@ -139,7 +98,7 @@ export class AuthService {
     let isExpired = true;
   
     if(!token) {
-      this._store.dispatch(setAuthenticated());
+      return;
     };
 
     isExpired = this._jwtHelper.isTokenExpired(token).valueOf() as boolean;

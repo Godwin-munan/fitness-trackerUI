@@ -11,7 +11,7 @@ import { AuthData } from '../model/auth-data.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent {
 
   loginform: FormGroup;
   hintStart: any = 'start';
@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private _fb: FormBuilder,
-    private _authService: AuthService,
     private _store: Store,
     ){
 
@@ -36,12 +35,14 @@ export class LoginComponent implements OnInit{
     this.isloading$ = this._store.select(selectIsLoading);
   }
 
+
   onLogin(){
     const authData = {
       username: this.emailControl.value,
       password: this.passwordControl.value
     } as AuthData;
-    this._store.dispatch(startLogin({authData}))
+
+    this._store.dispatch(startLogin({authData}));
   }
 
   togglePasswordVisibility(){
