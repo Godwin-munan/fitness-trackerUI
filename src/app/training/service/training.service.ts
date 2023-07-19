@@ -12,10 +12,9 @@ import {
   startExercise,
   startLoading, 
   stopLoading,
-  setAvailableExercises,
   trainingSelectors,
   stopExercise,
-  setFinishedExercises
+  loadFinishedExerciseSuccessfull,
   } from '@fitness/store/index';
 
 
@@ -47,23 +46,24 @@ export class TrainingService {
 
   fetchAvailableExercises(){
     
-    this._store.dispatch(startLoading());
+    // this._store.dispatch(startLoading());
 
-    this._apiService.get<Exercise[]>(ExerciseEndPoints.GET_EXERCISE).subscribe({
-      next: res => { 
+    return this._apiService.get<Exercise[]>(ExerciseEndPoints.GET_EXERCISE)
+    // .subscribe({
+    //   next: res => { 
 
-        this._store.dispatch(stopLoading());
+    //     this._store.dispatch(stopLoading());
 
-        const exercises = res.data as Exercise[];
+    //     const exercises = res.data as Exercise[];
 
-        this._store.dispatch(setAvailableExercises({
-          availableExercise: exercises 
-        }));
-      },
-      error: error => {
-        this._isLoading$.next(false);
-      }
-    })
+    //     this._store.dispatch(setAvailableExercises({
+    //       availableExercise: exercises 
+    //     }));
+    //   },
+    //   error: error => {
+    //     this._isLoading$.next(false);
+    //   }
+    // })
   }
 
   completeExercise(userId: number){
@@ -120,16 +120,8 @@ export class TrainingService {
   }
 
   fetchCompletedOrCancelledExercises(userId: number){
-   return this._apiService.getById<Exercise[]>(userId, ExecutedExerciseEndPoints.GET_EX_EXERCISE_USERID).subscribe({
-    next: response => {
-      const exercises = response.data as Exercise[];
-
-      this._store.dispatch(setFinishedExercises({
-          finishedExercise: exercises 
-        }
-      ));
-    }
-   })
+    // this._store.dispatch(startLoading());
+   return this._apiService.getById<Exercise[]>(userId, ExecutedExerciseEndPoints.GET_EX_EXERCISE_USERID)
   }
 
 }

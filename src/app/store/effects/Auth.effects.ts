@@ -1,22 +1,34 @@
 import { inject } from "@angular/core";
 import { AuthService } from "@core/authentication/service/auth.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { LoginSuccessfull, failureAuth, startLogin, startRegistration } from "../actions/auth.actions";
-import { catchError, map, of, switchMap } from "rxjs";
 import { User } from "@core/authentication/model/user.model";
 import { AppError } from "@core/error/app-error";
-import { stopLoading } from "../actions/ui.actions";
+import { failureMsg, startLoading, stopLoading } from "../actions/ui.actions";
+import { 
+  LoginSuccessfull, 
+  setAuthenticated, 
+  startLogin, 
+  startRegistration } from "../actions/auth.actions";
+import { 
+  catchError, 
+  exhaustMap, 
+  map,
+  of,
+  switchMap, 
+  tap} from "rxjs";
+import { Store } from "@ngrx/store";
 
 
-
-export const loadUserFromLogin = createEffect(
+export const loadUserFromLoginEffect = createEffect(
   (
     action$ = inject(Actions),
-    authService  = inject(AuthService)
+    authService  = inject(AuthService),
+    _store = inject(Store)
   ) => {
 
     return action$.pipe(
       ofType(startLogin),
+      // tap(() => _store.dispatch(startLoading())),
       switchMap(action => authService.login(action.authData)
       .pipe(
         map(response => {
@@ -28,13 +40,14 @@ export const loadUserFromLogin = createEffect(
         }),
         switchMap(user => [
           stopLoading(),
+          setAuthenticated(),
           LoginSuccessfull({principal: user})
         ]),
         catchError((error: AppError) => {
           let errorMsg = error.er as string;
           authService.stopError(errorMsg);
 
-          return of(failureAuth({errorMsg: errorMsg }))
+          return [failureMsg({errorMsg: errorMsg })];
         })        
       )),
     )
@@ -43,14 +56,16 @@ export const loadUserFromLogin = createEffect(
 );
 
 
-export const loadUserFromRegistration = createEffect(
+export const loadUserFromRegistrationEffect = createEffect(
   (
     action$ = inject(Actions),
-    authService  = inject(AuthService)
+    authService  = inject(AuthService),
+    _store = inject(Store)
   ) => {
 
     return action$.pipe(
       ofType(startRegistration),
+      // tap(() => _store.dispatch(startLoading())),
       switchMap(action => authService.registerUser(action.signUp).pipe(
         map(response => {
           let user = response.data as User;
@@ -58,13 +73,18 @@ export const loadUserFromRegistration = createEffect(
 
           authService.authSuccessfully(token, user);
 
-          return LoginSuccessfull({principal: user})
+          return user;
         }),
+        switchMap(user => [
+          stopLoading(),
+          setAuthenticated(),
+          LoginSuccessfull({principal: user})
+        ]),
         catchError((error: AppError) => {
           let errorMsg = error.er as string;
           authService.stopError(errorMsg);
 
-          return of(failureAuth({errorMsg: errorMsg }))
+          return of(failureMsg({errorMsg: errorMsg }))
         })        
       )),
     )

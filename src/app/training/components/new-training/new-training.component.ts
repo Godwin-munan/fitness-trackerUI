@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { selectIsLoading, trainingSelectors } from '@fitness/store/index';
+import { selectIsLoading, startAvailableExercisesLoad, startLoading, trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
@@ -28,16 +28,19 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.exerciseForm = this._fb.group({
         exercise: ['', [Validators.required,],],
     });
+    this._store.dispatch(startAvailableExercisesLoad());
   }
 
 
 
   ngOnInit(){
+    
     this.isloading$ =  this._store.select(selectIsLoading);
     
     this.exercises$ = this._store.select(trainingSelectors.selectAllAvailableExercises);
 
-    this.fetchExercise();
+
+    // this.fetchExercise();
   }
 
   ngOnDestroy(){
@@ -46,7 +49,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   fetchExercise(){
-    this._trainingService.fetchAvailableExercises();
+    this._store.dispatch(startAvailableExercisesLoad());
   }
 
   onStartTraining() {

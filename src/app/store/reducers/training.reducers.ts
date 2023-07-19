@@ -1,7 +1,11 @@
 import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
 import { Action, createFeatureSelector, createReducer, createSelector, on } from "@ngrx/store";
 import { Exercise } from "@training/model/exercise.model";
-import { setAvailableExercises, setFinishedExercises, startExercise, stopExercise } from "../actions/training.actions";
+import { 
+  loadAvailableExerciseSuccessfull, 
+  loadFinishedExerciseSuccessfull, 
+  startExercise, 
+  stopExercise } from "../actions/training.actions";
 
 //Training State
 interface TrainingState {
@@ -29,16 +33,18 @@ const initialState: TrainingState = {
 const _trainingReducer = createReducer(
   initialState,
 
-  on(setAvailableExercises, (state, action) => {
+  on(loadAvailableExerciseSuccessfull, (state, action) => {
     return {
       ...state,
-      availableExercises: availableExercisesAdapter.addMany(action.availableExercise, state.availableExercises),
+      availableExercises: availableExercisesAdapter
+      .addMany(action.availableExercise, state.availableExercises),
     };
   }),
-  on(setFinishedExercises, (state, action) => {
+  on(loadFinishedExerciseSuccessfull, (state, action) => {
     return {
       ...state,
-      finishedExercises: finishedExercisesAdapter.addMany(action.finishedExercise, state.finishedExercises),
+      finishedExercises: finishedExercisesAdapter
+      .addMany(action.finishedExercise, state.finishedExercises),
     };
   }),
   on(startExercise, (state, action) => {

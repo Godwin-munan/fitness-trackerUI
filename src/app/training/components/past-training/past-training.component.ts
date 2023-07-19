@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from '@core/authentication/model/user.model';
 import { AuthService } from '@core/authentication/service/auth.service';
-import { trainingSelectors } from '@fitness/store/index';
+import { startFinishedExercisesLoad, trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
@@ -29,7 +29,6 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private _trainingService: TrainingService,
     private _authService: AuthService,
     private _store: Store,
   ){
@@ -37,7 +36,8 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.exerciseSubscription = this._store.select(trainingSelectors.selectAllFinishedExercises)
+    this.exerciseSubscription = this._store
+      .select(trainingSelectors.selectAllFinishedExercises)
         .subscribe({
           next: data => {
             this.dataSource.data = data;
@@ -45,8 +45,7 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     
    let id = this.user.id as number;
-   this._trainingService.fetchCompletedOrCancelledExercises(id);
-
+   this._store.dispatch(startFinishedExercisesLoad({userId: id}));
 
    this.totalData = this.dataSource.data.length;
   }
@@ -56,6 +55,7 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
    this.dataSource.sort = this.sort;
    this.dataSource.paginator = this.paginator;
   }
+
 
   doFilter(filterValue: string){
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   registerUser(signUpData: SignUpData){
-    this._store.dispatch(startLoading());
+    // this._store.dispatch(startLoading());
 
     return this._apiService.add<User>(AuthEndPoints.SIGNUP, signUpData);
   }
