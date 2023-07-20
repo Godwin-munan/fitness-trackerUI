@@ -1,8 +1,7 @@
-<mat-tab-group *ngIf="!ongoingTraining" animationDuration="0ms">
+<mat-tab-group *ngIf="!(exercise$ | async)" animationDuration="0ms">
   <mat-tab label="New Excercise">
     <ng-template matTabContent>
-      <app-new-training 
-        (trainingStart)="ongoingTraining = true">
+      <app-new-training>
       </app-new-training>
     </ng-template>
   </mat-tab>
@@ -13,5 +12,5 @@
   </mat-tab>
 </mat-tab-group>
 <app-current-training 
-  *ngIf="ongoingTraining">
+  *ngIf="exercise$ | async">
 </app-current-training>

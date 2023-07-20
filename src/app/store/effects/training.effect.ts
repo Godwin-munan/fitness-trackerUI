@@ -5,10 +5,13 @@ import { failureMsg, startLoading, stopLoading } from "../actions/ui.actions";
 import { Exercise } from "@training/model/exercise.model";
 import { AppError } from "@core/error/app-error";
 import { 
+  cancelExercise,
+  completeExercise,
   loadAvailableExerciseSuccessfull, 
   loadFinishedExerciseSuccessfull, 
   startAvailableExercisesLoad, 
-  startFinishedExercisesLoad} from "../actions/training.actions";
+  startFinishedExercisesLoad,
+  stopExercise} from "../actions/training.actions";
 import { 
   map, 
   switchMap, 
@@ -18,7 +21,8 @@ import {
   concatMap,
   mergeMap,
   tap,
-  exhaustMap} from "rxjs";
+  exhaustMap,
+  delay} from "rxjs";
 import { Store } from "@ngrx/store";
 
 
@@ -32,12 +36,12 @@ export const loadAvailableExercisesEffect = createEffect(
     return action$.pipe(
       ofType(startAvailableExercisesLoad),
       // tap(() => _store.dispatch(startLoading())),
-      concatMap( () => trainingService.fetchAvailableExercises().pipe(
+      switchMap( () => trainingService.fetchAvailableExercises().pipe(
         map(response => {
           let exercises = response.data as Exercise[];
           return exercises;
         }),
-        concatMap(exercises => [
+        switchMap(exercises => [
           stopLoading(),
           loadAvailableExerciseSuccessfull({availableExercise: exercises}),
         ]), 
@@ -63,13 +67,12 @@ export const loadFinishedExercisesEffect = createEffect(
     return action$.pipe(
       ofType(startFinishedExercisesLoad),
       // tap(() => _store.dispatch(startLoading())),
-      concatMap((action) => trainingService.fetchCompletedOrCancelledExercises(action.userId).pipe(
+      switchMap((action) => trainingService.fetchCompletedOrCancelledExercises(action.userId).pipe(
         map(response => {
-          console.log("Show response")
           let exercises = response.data as Exercise[];
           return exercises;
         }),
-        concatMap(exercises => [
+        switchMap(exercises => [
           stopLoading(),
           loadFinishedExerciseSuccessfull({ finishedExercise: exercises }),
         ]), 
@@ -85,42 +88,79 @@ export const loadFinishedExercisesEffect = createEffect(
 );
 
 
+export const completeExerciseEffect = createEffect(
+  (
+    action$ = inject(Actions),
+    _trainingService = inject(TrainingService),
+    _store = inject(Store)
+  ) => {
+    return action$.pipe(
+      ofType(completeExercise),
+      tap(() => _store.dispatch(startLoading())),
+      map(action => {
+        let exercise = _trainingService.completeExercise(action.userId, action.exercise);
+        return {userId: action.userId, exercise: exercise}
+      }),
+      switchMap(result => _trainingService.addExecutedExercise(result.exercise, result.userId).pipe(
+        switchMap(id => {
+
+          let userId = id.data as number;
+          return _trainingService.fetchCompletedOrCancelledExercises(userId)}),
+        map(res => res.data as Exercise[]),
+        switchMap(exercises => [
+          stopExercise(), 
+          stopLoading(),
+          loadFinishedExerciseSuccessfull({ finishedExercise: exercises }),
+        ])
+      )),
+      catchError((error: AppError) => {
+        let errorMsg = error.er as string;
+        return from([ stopLoading(), failureMsg({errorMsg: errorMsg }) ])
+      })  
+    )
+  },
+  {
+    functional: true
+  }
+);
 
 
+export const cancelExerciseEffect = createEffect(
+  (
+    action$ = inject(Actions),
+    _trainingService = inject(TrainingService),
+    _store = inject(Store)    
+  ) => {
+    return action$.pipe(
+      ofType(cancelExercise),
+      tap(() => _store.dispatch(startLoading())),
+      map(action => {
+        let exercise = _trainingService.cancelExercise(action.userId,action.progress, action.exercise);
+        return {userId: action.userId, exercise: exercise}
+      }),
+      switchMap(result => _trainingService.addExecutedExercise(result.exercise, result.userId).pipe(
+        switchMap(id => {
 
+          let userId = id.data as number;
+          return _trainingService.fetchCompletedOrCancelledExercises(userId)}),
+        map(res => res.data as Exercise[]),
+        switchMap(exercises => [
+          stopExercise(), 
+          stopLoading(),
+          loadFinishedExerciseSuccessfull({ finishedExercise: exercises }),
+        ])
+      )),
+      catchError((error: AppError) => {
+        let errorMsg = error.er as string;
+        return from([ stopLoading(), failureMsg({errorMsg: errorMsg }) ])
+      })  
+    )
+  },
+  {
+    functional: true
+  }
+);
 
-
-
-
-// export const loadExercisesEffect = createEffect(
-//   (
-//     action$ = inject(Actions),
-//     trainingService = inject(TrainingService)
-//   ) => {
-
-//     return action$.pipe(
-//       ofType(startFinishedExercisesLoad),
-//       switchMap(action => {
-//         const startLoadingAction = startLoading(); // Dispatch the startLoading action
-//         return trainingService.fetchCompletedOrCancelledExercises(action.userId).pipe(
-//           map(response => {
-//             let exercises = response.data as Exercise[];
-//             return [startLoadingAction, exercises]; // Combine the startLoadingAction and the fetched exercises in an array
-//           }),
-//           catchError((error: AppError) => {
-//             let errorMsg = error.er as string;
-//             return from([startLoadingAction, stopLoading(), failureMsg({ errorMsg: errorMsg })]); // Dispatch the loading and failure actions on error
-//           })
-//         );
-//       }),
-//       switchMap(([startLoadingAction, exercises]) => [
-//         stopLoading(), // Dispatch the stopLoading action after the asynchronous operation
-//         loadFinishedExerciseSuccessfull({ finishedExercise: exercises }),
-//       ])
-//     );
-//   },
-//   { functional: true }
-// );
 
 
 

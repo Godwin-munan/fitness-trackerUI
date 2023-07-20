@@ -15,10 +15,13 @@ mat-sidenav {
 }
 
 .main-body{
-  display: flex;
-  height: 28.125rem;
-  justify-content: center;
-  align-items: center;
+  height: 100svh;
+  width: 90svw;
+  margin: 0 auto;
+  // display: flex;
+  // height: 28.125rem;
+  // justify-content: center;
+  // align-items: center;
 }
 
 

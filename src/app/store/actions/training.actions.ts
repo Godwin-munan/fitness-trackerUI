@@ -22,11 +22,18 @@ export const loadFinishedExerciseSuccessfull = createAction(
 )
 
 export const startExercise = createAction(
-    "[Training] start Training",
+    "[Training] Start Training",
     props<{exerciseId: number}>()
 );
 
-export const stopExercise = createAction(
-    "[Training] stop Training",
-    
+export const stopExercise = createAction("[Training] stop Training");
+
+export const completeExercise = createAction(
+    "[Training] Complete Training",
+    props<{userId: number, exercise: Exercise}>()
+);
+
+export const cancelExercise = createAction(
+    "[Training] Cancel Training",
+    props<{userId: number, progress: number, exercise: Exercise}>()
 );

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/compiler';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { selectIsLoading, startAvailableExercisesLoad, startLoading, trainingSelectors } from '@fitness/store/index';
 import { Store } from '@ngrx/store';
 import { Exercise } from 'app/training/model/exercise.model';
 import { TrainingService } from 'app/training/service/training.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, delay, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-new-training',
@@ -12,7 +13,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
   styleUrls: ['./new-training.component.scss']
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
-  @Output("trainingStart") trainingStart = new EventEmitter<void>();
+  // @Output("trainingStart") trainingStart = new EventEmitter<void>();
 
   private destroySubject$: Subject<void> = new Subject<void>();
   exercises$!: Observable<Exercise[]>;
@@ -22,25 +23,28 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
-    private _store: Store  
+    private _store: Store,
+    private cdk: ChangeDetectorRef
     ){
    
     this.exerciseForm = this._fb.group({
         exercise: ['', [Validators.required,],],
     });
-    this._store.dispatch(startAvailableExercisesLoad());
+    
   }
 
 
 
   ngOnInit(){
-    
+    this.exercises$ = this._store
+      .select(trainingSelectors.selectAllAvailableExercises);
     this.isloading$ =  this._store.select(selectIsLoading);
     
-    this.exercises$ = this._store.select(trainingSelectors.selectAllAvailableExercises);
+    
+  }
 
-
-    // this.fetchExercise();
+  ngAfterViewInit(){
+    this.fetchExercise();
   }
 
   ngOnDestroy(){

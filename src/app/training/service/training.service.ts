@@ -8,14 +8,7 @@ import {
   ExerciseState
   } from '@core/constant/api-constants';
 import { Store } from '@ngrx/store';
-import { 
-  startExercise,
-  startLoading, 
-  stopLoading,
-  trainingSelectors,
-  stopExercise,
-  loadFinishedExerciseSuccessfull,
-  } from '@fitness/store/index';
+import { startExercise } from '@fitness/store/index';
 
 
 @Injectable({
@@ -49,78 +42,38 @@ export class TrainingService {
     // this._store.dispatch(startLoading());
 
     return this._apiService.get<Exercise[]>(ExerciseEndPoints.GET_EXERCISE)
-    // .subscribe({
-    //   next: res => { 
-
-    //     this._store.dispatch(stopLoading());
-
-    //     const exercises = res.data as Exercise[];
-
-    //     this._store.dispatch(setAvailableExercises({
-    //       availableExercise: exercises 
-    //     }));
-    //   },
-    //   error: error => {
-    //     this._isLoading$.next(false);
-    //   }
-    // })
   }
 
-  completeExercise(userId: number){
-
-    this._store.select(trainingSelectors.selectActiveTraining).subscribe({
-      next: exercise => {
-        if(exercise) this.runningExercise = exercise;
-      }
-    })
-
-    this.runningExercise = {
-      ...(this.runningExercise as Exercise), 
+  completeExercise(userId: number, exercise: Exercise){
+    return {
+      ...exercise, 
       date: new Date(),
       state: ExerciseState.COMPLETED
     }
-    this.addExecutedExercise(this.runningExercise, userId);
-
-    this._store.dispatch(stopExercise());
   }
 
-  cancelExercise(userId: number, progress: number){
+  cancelExercise(userId: number, progress: number, exercise: Exercise){
 
-    this._store.select(trainingSelectors.selectActiveTraining).subscribe({
-      next: exercise => {
-        if(exercise) this.runningExercise = exercise;
-      }
-    })
-
-    let exercise = {
-      ...(this.runningExercise as Exercise),
-      duration: (this.runningExercise as Exercise)?.duration * (progress / 100),
-      calory: (this.runningExercise as Exercise)?.calory * (progress / 100),
+    return {
+      ...exercise,
+      duration: exercise?.duration * (progress / 100),
+      calory: exercise?.calory * (progress / 100),
       date: new Date(),
       state: ExerciseState.CANCELLED
     };
-
-    this.addExecutedExercise(exercise, userId);  
-
-    this._store.dispatch(stopExercise());
   }
 
   getRunningExercise(){
     return { ...this.runningExercise };
   }
 
-  private addExecutedExercise(data: Exercise, userId: number){
-    this._apiService
-      .addById<Exercise>(ExecutedExerciseEndPoints.ADD_EX_EXERCISE_USERID, userId, data)
-        .subscribe({
-          next: response => {
-            this.fetchCompletedOrCancelledExercises(userId);
-          }
-        });
+  addExecutedExercise(data: Exercise, userId: number){
+    return this._apiService
+      .addById<number>(ExecutedExerciseEndPoints.ADD_EX_EXERCISE_USERID, userId, data)
+
   }
 
   fetchCompletedOrCancelledExercises(userId: number){
-    // this._store.dispatch(startLoading());
    return this._apiService.getById<Exercise[]>(userId, ExecutedExerciseEndPoints.GET_EX_EXERCISE_USERID)
   }
 

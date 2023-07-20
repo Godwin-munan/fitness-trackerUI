@@ -13,9 +13,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { authFeature, uiFeature } from '@fitness/store/index';
-import { 
-  loadUserFromLoginEffect, 
-  loadUserFromRegistrationEffect } from './store/effects/auth.effects';
+// import { 
+//   loadUserFromLoginEffect, 
+//   loadUserFromRegistrationEffect } from './store/effects/auth.effects';
+import * as LoadUserEffect from './store/effects/auth.effects';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -44,10 +45,7 @@ export function tokenGetter() {
     StoreModule.forFeature(authFeature),
 
     EffectsModule.forRoot(),
-    EffectsModule.forFeature([
-      {loadUserFromLoginEffect},
-      {loadUserFromRegistrationEffect}
-    ]),
+    EffectsModule.forFeature(LoadUserEffect),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],

@@ -6,7 +6,7 @@ import { TrainingService } from 'app/training/service/training.service';
 import { Exercise } from 'app/training/model/exercise.model';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { trainingSelectors } from '@fitness/store/index';
+import { cancelExercise, completeExercise, trainingSelectors } from '@fitness/store/index';
 
 @Component({
   selector: 'app-current-training',
@@ -16,6 +16,7 @@ import { trainingSelectors } from '@fitness/store/index';
 export class CurrentTrainingComponent implements OnInit, OnDestroy{
 
   private destroySubject$: Subject<void> = new Subject<void>();
+  exercise!: Exercise | null;
   progress: number = 0;
   timer!: any;
   userId!: number;
@@ -56,7 +57,7 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
   activeExerceImp(exercise: Exercise){
 
     if(exercise){
-
+      this.exercise = exercise;
       const step = exercise.duration / 100 * 1000;
 
       if(this.progress >= 100) return;
@@ -65,7 +66,13 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
       this.progress = this.progress + 1;
       
       if(this.progress >= 100) {
-        this._trainingService.completeExercise(this.userId);
+        // this._trainingService.completeExercise(this.userId, exercise);
+        
+        this._store.dispatch(completeExercise({
+          userId: this.userId,
+          exercise: exercise
+        }));
+
         clearInterval(this.timer);
       }
 
@@ -89,7 +96,13 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
     ).subscribe({
       next: result => {
         if(result) {
-          this._trainingService.cancelExercise(this.userId, this.progress);
+          // this._trainingService.cancelExercise(this.userId, this.progress, this.exercise as Exercise);
+          let ex = this.exercise as Exercise;
+          this._store.dispatch(cancelExercise({
+            userId: this.userId,
+            progress: this.progress,
+            exercise: ex
+          }))
         }else {
           this.startOrResumeTimer();
         };
