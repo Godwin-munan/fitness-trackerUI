@@ -31,6 +31,7 @@
       "@current-style/*": ["app/custom/*"],
       "@reducers/*": ["app/reducers/*"],
       "@fitness/store/*": ["app/store/*"],
+      "@fitness/global/store": ["app/store/index"],
     }
   },
   "angularCompilerOptions": {

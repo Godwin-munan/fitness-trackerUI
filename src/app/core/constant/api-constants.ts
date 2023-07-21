@@ -56,6 +56,7 @@ export enum AccessToken {
 }
 
 export enum Constants {
+  MICRO_SEC = .0000000000001,
   PRINCIPAL = "principal",
   ERROR = "error",
   SUCCESS = "success",

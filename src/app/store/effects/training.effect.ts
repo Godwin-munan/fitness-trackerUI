@@ -24,6 +24,7 @@ import {
   exhaustMap,
   delay} from "rxjs";
 import { Store } from "@ngrx/store";
+import { Constants } from "@core/constant/api-constants";
 
 
 export const loadAvailableExercisesEffect = createEffect(
@@ -35,7 +36,8 @@ export const loadAvailableExercisesEffect = createEffect(
 
     return action$.pipe(
       ofType(startAvailableExercisesLoad),
-      // tap(() => _store.dispatch(startLoading())),
+      delay(Constants.MICRO_SEC),
+      tap(() => _store.dispatch(startLoading())),
       switchMap( () => trainingService.fetchAvailableExercises().pipe(
         map(response => {
           let exercises = response.data as Exercise[];
@@ -66,7 +68,8 @@ export const loadFinishedExercisesEffect = createEffect(
 
     return action$.pipe(
       ofType(startFinishedExercisesLoad),
-      // tap(() => _store.dispatch(startLoading())),
+      delay(Constants.MICRO_SEC),
+      tap(() => _store.dispatch(startLoading())),
       switchMap((action) => trainingService.fetchCompletedOrCancelledExercises(action.userId).pipe(
         map(response => {
           let exercises = response.data as Exercise[];
@@ -98,7 +101,7 @@ export const completeExerciseEffect = createEffect(
       ofType(completeExercise),
       tap(() => _store.dispatch(startLoading())),
       map(action => {
-        let exercise = _trainingService.completeExercise(action.userId, action.exercise);
+        let exercise = _trainingService.completeExercise(action.exercise);
         return {userId: action.userId, exercise: exercise}
       }),
       switchMap(result => _trainingService.addExecutedExercise(result.exercise, result.userId).pipe(
@@ -135,7 +138,7 @@ export const cancelExerciseEffect = createEffect(
       ofType(cancelExercise),
       tap(() => _store.dispatch(startLoading())),
       map(action => {
-        let exercise = _trainingService.cancelExercise(action.userId,action.progress, action.exercise);
+        let exercise = _trainingService.cancelExercise(action.progress, action.exercise);
         return {userId: action.userId, exercise: exercise}
       }),
       switchMap(result => _trainingService.addExecutedExercise(result.exercise, result.userId).pipe(

@@ -1,52 +1,59 @@
-<div class="main-body">
-  <div class="filter">
-    <mat-form-field>
-      <input matInput type="text" (keydown)="doFilter($any($event.target).value)" placeholder="filter">
-    </mat-form-field>
+<ng-container *ngIf="!errorMsg; else error_template">
+  <div class="main-body">
+    <div class="filter">
+      <mat-form-field>
+        <input matInput type="text" (keydown)="doFilter($any($event.target).value)" placeholder="filter">
+      </mat-form-field>
+    </div>
+  
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+  
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.date | date }} </td>
+        </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+        </ng-container>
+  
+        <!-- Duration Column -->
+        <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+          <td mat-cell *matCellDef="let element"> {{ element.duration | number }} </td>
+        </ng-container>
+  
+        <!-- Calories Column -->
+        <ng-container matColumnDef="calories">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Calories </th>
+          <td mat-cell *matCellDef="let element"> {{ element.calory | number }} </td>
+        </ng-container>
+  
+        <!-- State Column -->
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
+          <td mat-cell *matCellDef="let element"> {{ element.state }} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <!-- #paginator -->
+      <mat-paginator [pageSizeOptions]="pageSizes" showFirstLastButtons>
+      </mat-paginator>
+    </div>
   </div>
+</ng-container>
 
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-    
-      <!-- Date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-        <td mat-cell *matCellDef="let element"> {{ element.date | date }} </td>
-      </ng-container>
-    
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
-      </ng-container>
-    
-      <!-- Duration Column -->
-      <ng-container matColumnDef="duration">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
-        <td mat-cell *matCellDef="let element"> {{ element.duration | number }} </td>
-      </ng-container>
-    
-      <!-- Calories Column -->
-      <ng-container matColumnDef="calories">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Calories </th>
-        <td mat-cell *matCellDef="let element"> {{ element.calory | number }} </td>
-      </ng-container>
-    
-      <!-- State Column -->
-      <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
-        <td mat-cell *matCellDef="let element"> {{ element.state }} </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <!-- #paginator -->
-    <mat-paginator 
-      [pageSizeOptions]="pageSizes" 
-      showFirstLastButtons
-    >
-    </mat-paginator>
-  </div>
-</div>
+<ng-template #error_template>
+  <section>
+    <div>
+      {{ errorMsg }}
+    </div>
+  </section>
+</ng-template>
 

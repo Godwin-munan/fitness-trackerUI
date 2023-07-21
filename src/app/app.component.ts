@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectIsLoading } from '@fitness/store/index';
+import { selectIsLoading } from '@fitness/global/store';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,9 @@ import { selectIsLoading } from '@fitness/store/index';
 export class AppComponent {
   isloading$!: Observable<boolean>;
 
-  constructor(private _store: Store){}
+  constructor(
+    private _store: Store
+    ){}
 
   ngOnInit(){
     this.isloading$ = this._store.select(selectIsLoading);

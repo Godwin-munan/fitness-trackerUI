@@ -13,10 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { authFeature, uiFeature } from '@fitness/store/index';
-// import { 
-//   loadUserFromLoginEffect, 
-//   loadUserFromRegistrationEffect } from './store/effects/auth.effects';
-import * as LoadUserEffect from './store/effects/auth.effects';
+import { LoadUserEffect } from '@fitness/global/store';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");

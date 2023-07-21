@@ -28,7 +28,7 @@ export const loadUserFromLoginEffect = createEffect(
 
     return action$.pipe(
       ofType(startLogin),
-      // tap(() => _store.dispatch(startLoading())),
+      tap(() => _store.dispatch(startLoading())),
       switchMap(action => authService.login(action.authData)
       .pipe(
         map(response => {
@@ -39,7 +39,7 @@ export const loadUserFromLoginEffect = createEffect(
           return user;
         }),
         switchMap(user => [
-          stopLoading(),
+          // stopLoading(),
           setAuthenticated(),
           LoginSuccessfull({principal: user})
         ]),
@@ -65,7 +65,7 @@ export const loadUserFromRegistrationEffect = createEffect(
 
     return action$.pipe(
       ofType(startRegistration),
-      // tap(() => _store.dispatch(startLoading())),
+      tap(() => _store.dispatch(startLoading())),
       switchMap(action => authService.registerUser(action.signUp).pipe(
         map(response => {
           let user = response.data as User;

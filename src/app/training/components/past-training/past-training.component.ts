@@ -1,14 +1,27 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from '@core/authentication/model/user.model';
 import { AuthService } from '@core/authentication/service/auth.service';
-import { startFinishedExercisesLoad, trainingSelectors } from '@fitness/store/index';
+
 import { Store } from '@ngrx/store';
 import { Exercise } from 'app/training/model/exercise.model';
-import { TrainingService } from 'app/training/service/training.service';
-import { Subscription } from 'rxjs';
+import { 
+  Subject, 
+  Subscription, 
+  takeUntil } from 'rxjs';
+import { 
+  failureMsg,
+  selectError, 
+  startFinishedExercisesLoad, 
+  trainingSelectors } from '@fitness/global/store';
+import { 
+  AfterViewInit, 
+  Component, 
+  OnDestroy, 
+  OnInit, 
+  ViewChild } from '@angular/core';
+  
 
 @Component({
   selector: 'app-past-training',
@@ -17,13 +30,13 @@ import { Subscription } from 'rxjs';
 })
 export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  private destroySubject$: Subject<void> = new Subject<void>();
   displayedColumns = ['date', 'name', 'duration', 'calories', 'state'];
   pageSizes = [5, 10, 25];
   totalData: number = 0;
   user!: User;
   dataSource = new MatTableDataSource<Exercise >()
-
-  exerciseSubscription!: Subscription;
+  errorMsg!: string;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,13 +49,27 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.exerciseSubscription = this._store
-      .select(trainingSelectors.selectAllFinishedExercises)
-        .subscribe({
-          next: data => {
-            this.dataSource.data = data;
-          }
+
+    this._store
+      .select(trainingSelectors.selectAllFinishedExercises).pipe(
+        takeUntil(this.destroySubject$))
+          .subscribe({
+            next: data => {
+              this.dataSource.data = data;
+            }
+        });
+
+
+    this._store.select(selectError).pipe(
+      takeUntil(this.destroySubject$)
+    ).subscribe({
+      next: errorMsg => {
+        if(errorMsg && errorMsg != null){
+          this.errorMsg = errorMsg
+        }
+      }
     });
+
     
    let id = this.user.id as number;
    this._store.dispatch(startFinishedExercisesLoad({userId: id}));
@@ -62,7 +89,11 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-   this.exerciseSubscription.unsubscribe();
+    this.destroySubject$.next();
+    this.destroySubject$.complete();
+
+  //  this._store.dispatch(failureMsg({errorMsg: null}));
+   console.log(`Destroyer`);
   }
 
 }

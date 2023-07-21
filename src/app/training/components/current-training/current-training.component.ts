@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit, } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StopTrainingComponent } from '../stop-training/stop-training.component';
 import { Subject, takeUntil } from 'rxjs';
-import { TrainingService } from 'app/training/service/training.service';
 import { Exercise } from 'app/training/model/exercise.model';
 import { AuthService } from '@core/authentication/service/auth.service';
 import { Store } from '@ngrx/store';
-import { cancelExercise, completeExercise, trainingSelectors } from '@fitness/store/index';
+import { 
+  cancelExercise, 
+  completeExercise, 
+  trainingSelectors } from '@fitness/global/store';
 
 @Component({
   selector: 'app-current-training',
@@ -25,7 +27,6 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
 
   constructor(
     private _dialog: MatDialog,
-    private _trainingService: TrainingService,
    private _authService: AuthService,
    private _store: Store
   ){
@@ -66,7 +67,6 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
       this.progress = this.progress + 1;
       
       if(this.progress >= 100) {
-        // this._trainingService.completeExercise(this.userId, exercise);
         
         this._store.dispatch(completeExercise({
           userId: this.userId,
@@ -96,7 +96,7 @@ export class CurrentTrainingComponent implements OnInit, OnDestroy{
     ).subscribe({
       next: result => {
         if(result) {
-          // this._trainingService.cancelExercise(this.userId, this.progress, this.exercise as Exercise);
+
           let ex = this.exercise as Exercise;
           this._store.dispatch(cancelExercise({
             userId: this.userId,

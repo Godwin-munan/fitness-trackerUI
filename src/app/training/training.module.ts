@@ -10,7 +10,7 @@ import { TrainingRoutingModule } from './training-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { trainingReducer } from '@fitness/store/index';
 import { EffectsModule } from '@ngrx/effects';
-import * as LoadExercisesEffect from '@fitness/store/effects/training.effect';
+import { LoadExercisesEffect } from '@fitness/global/store';
 
 const COMPONENT: any[] = [
     CurrentTrainingComponent,

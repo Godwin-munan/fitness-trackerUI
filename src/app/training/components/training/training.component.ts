@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { trainingSelectors } from '@fitness/store/index';
+import { selectIsLoading, trainingSelectors } from '@fitness/global/store';
 import { Store } from '@ngrx/store';
 import { Exercise } from '@training/model/exercise.model';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-training',
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 export class TrainingComponent {
   
   exercise$!: Observable<Exercise | null>;
+  isloading$!: Observable<boolean>;
 
   constructor(
     private _store: Store
@@ -20,6 +21,12 @@ export class TrainingComponent {
   ngOnInit(){
     this.exercise$ = this._store
       .select(trainingSelectors.selectActiveTraining);
+
+    this.isloading$ =  this._store.select(selectIsLoading).pipe(
+      map(isLoading => {
+        return isLoading;
+      })
+    );
   }
 
 }

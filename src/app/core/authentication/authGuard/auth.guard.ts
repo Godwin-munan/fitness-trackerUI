@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Router,} from '@angular/router';
 import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectIsAuthenticated } from '@fitness/store/index';
+import { selectIsAuthenticated } from '@fitness/global/store';
 
 @Injectable({
   providedIn: 'root'
