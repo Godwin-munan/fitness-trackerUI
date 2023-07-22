@@ -55,15 +55,15 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
     this.isloading$ =  this._store.select(selectIsLoading);
 
-    this._store.select(selectError).pipe(
-      takeUntil(this.destroySubject$)
-    ).subscribe({
-      next: errorMsg => {
-        if(errorMsg && errorMsg != null){
-          this.errorMsg = errorMsg
-        }
-      }
-    });
+    // this._store.select(selectError).pipe(
+    //   takeUntil(this.destroySubject$)
+    // ).subscribe({
+    //   next: errorMsg => {
+    //     if(errorMsg && errorMsg != null){
+    //       this.errorMsg = errorMsg
+    //     }
+    //   }
+    // });
 
     // this.exercises$ = this._activatedRoute.data.pipe(
     //   map(data => data?.['exercises'])

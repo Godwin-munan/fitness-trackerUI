@@ -8,10 +8,8 @@ import { Store } from '@ngrx/store';
 import { Exercise } from 'app/training/model/exercise.model';
 import { 
   Subject, 
-  Subscription, 
   takeUntil } from 'rxjs';
 import { 
-  failureMsg,
   selectError, 
   startFinishedExercisesLoad, 
   trainingSelectors } from '@fitness/global/store';
@@ -60,15 +58,15 @@ export class PastTrainingComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
 
-    this._store.select(selectError).pipe(
-      takeUntil(this.destroySubject$)
-    ).subscribe({
-      next: errorMsg => {
-        if(errorMsg && errorMsg != null){
-          this.errorMsg = errorMsg
-        }
-      }
-    });
+    // this._store.select(selectError).pipe(
+    //   takeUntil(this.destroySubject$)
+    // ).subscribe({
+    //   next: errorMsg => {
+    //     if(errorMsg && errorMsg != null){
+    //       this.errorMsg = errorMsg
+    //     }
+    //   }
+    // });
 
     
    let id = this.user.id as number;
