@@ -19,8 +19,8 @@ const availableExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<E
 const finishedExercisesAdapter: EntityAdapter<Exercise> = createEntityAdapter<Exercise>();
 
 
-const initialAvailableExercisesState = availableExercisesAdapter.getInitialState();
-const initialFinishedExercisesState = finishedExercisesAdapter.getInitialState();
+const initialAvailableExercisesState = availableExercisesAdapter.getInitialState({undefined});
+const initialFinishedExercisesState = finishedExercisesAdapter.getInitialState({undefined});
 
 //Initial Training state
 const initialState: TrainingState = {
